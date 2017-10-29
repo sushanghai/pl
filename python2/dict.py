@@ -1,3 +1,5 @@
+#conding=utf-8
+
 d={'year':2000,'age':18}
 year=d['year']
 age=d['age']
