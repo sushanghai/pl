@@ -1,3 +1,3 @@
-f = open('user.txt')
+f = open('user')
 print f.read()
 f.close()
