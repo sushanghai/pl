@@ -3,16 +3,12 @@
 cont_str='firstdfdf fdfdfderererrr funk i of all,iwant makeitclear itso'
 res={}
 for i in cont_str:
-    if i == ' ' and i == ',':
-        continue
-    elif i in res:
-        res[i] +=1
-    else:
-        res[i]=1
+     res[i] = res.get(i,1)+1
 #print res
 #反转dict 让值:字符,然后取出.sort排序把前10取出来，然后遍历，去反转后的dict里获取字符值:[字符1，字符2]
 reverse_res ={}
 for k in res:
+#    rever
 #    print res[k]
     if res[k] in reverse_res:
         reverse_res[res[k]].append(k)
@@ -29,9 +25,9 @@ key_list.sort()
 #倒排序
 #key_list.reverse()
 count = 0
-while count<3:
+while count<10:
     val = key_list.pop()
-    print val
+#    print val
     for k in reverse_res[val]:
         print 'chart %s,count is %s' %(k,val)
 	count +=1
