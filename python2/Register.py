@@ -14,7 +14,7 @@ u = f.readlines()
 for i in u:
     temp = i.split(':')
     # print temp[0]
-    user_dict=temp[0]
+    user_dict[temp[0]]=temp[1]
 # print user_dict
 f.close()
 # 判断用户是否存在,存在则显示存在；否则添加进文件
