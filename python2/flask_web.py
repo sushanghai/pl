@@ -1,15 +1,34 @@
-from flask import Flask
+#coding:utf-8
+#!/usr/bin/python27
+
+import getMem2
+from flask import Flask,request,render_template
 app = Flask(__name__)
 
 
 
 @app.route('/')
 def index():
-    return 'hello world'
-
-@app.route('/web.html')
+    return render_template('login.html')
+    #return render_template('index.html')
+    #return render_template(getMem2.getMem())
+    # print getMem2.getMem()
+    # return getMem2.getMem()
+#    return 'hello world'
+def check_login(user,pwd):
+    with open('user.txt') as f:
+         user_list = f.read().split('\n')
+	 user_pwd = '%s:%s'%(user,pwd)
+	      if user_pwd in user_list:
+	           return 'success'
+	      else:
+	           return 'erro'
+@app.route('/login')
 def web_html():
-    return 'web xxx'
+    user = request.args.get('user')
+    passwd = request.args.get('pwd')
+
+    return check_login
 
 
 
