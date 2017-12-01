@@ -19,16 +19,16 @@ def check_login(user,pwd):
     with open('user.txt') as f:
          user_list = f.read().split('\n')
 	 user_pwd = '%s:%s'%(user,pwd)
-	      if user_pwd in user_list:
-	           return 'success'
-	      else:
-	           return 'erro'
+	 if user_pwd in user_list:
+	     return 'success'
+	 else:
+	     return 'erro'
 @app.route('/login')
 def web_html():
     user = request.args.get('user')
-    passwd = request.args.get('pwd')
+    pwd = request.args.get('pwd')
 
-    return check_login
+    return check_login(user,pwd)
 
 
 
