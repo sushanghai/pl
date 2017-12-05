@@ -2,10 +2,22 @@
 
 
 <table border = '1'>
-{% for user in ulist %}
 <tr>
-    <td>{{user[0]}}</td>
-    <td>{{user[1]}}</td>
+    <td>user</td>
+    <td>pwd</td>
+    <td>action</td>
+</tr>
+{% for user in userlist %}
+<tr>
+    <td>
+    	{{user[0]}}
+    </td>
+    <td>
+    	{{user[1]}}
+    </td>
+    <td>
+        <a>delete</a>
+    </td>
 </tr>
 {% endfor %}
 
