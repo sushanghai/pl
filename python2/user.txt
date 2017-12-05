@@ -6,3 +6,4 @@ user4:123457890
 user5:9876543210
 hello:oyf
 myname:reboot
+admin:pwd
