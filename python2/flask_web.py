@@ -3,14 +3,17 @@
 
 import getMem2
 import fileutil 
-from flask import Flask,request,render_template,redirect
+from flask import Flask,request,render_template,redirect,session
 app = Flask(__name__)
 
 fileutil.read_file()
+app.secret_key = 'A0Zr98j/3yX R~XHH!jmN]LWX/,?RT'
 
 
 @app.route('/')
 def index():
+    if 'username' in session:
+         return redirect('/list')
     return render_template('login.html')
 
 @app.route('/loginaction')
@@ -20,16 +23,17 @@ def login():
     erro_msg = ''
     if user and pwd:
         if user == 'admin' and  pwd == 'pwd':
+	     session ['username'] = 'admin'
 	     return redirect('/list')
 	else:
-	     return 'wrong user or password!'
+	     erro_msg='wrong user or password!'
+    else:
+        erro_msg = 'need user and pwd'
     return render_template('login.html',erro_msg=erro_msg)
-
-@app.route('/list')
-def userlist():
-     return render_template('admin.html',userlist=fileutil.file_dict.items())
-
-
+@app.route('/logout')
+def logout():
+    session.pop('username')
+    return redirect('/')
 @app.route('/del')
 def del_user():
      user = request.args.get('user')
@@ -53,6 +57,7 @@ def updae_user():
     user = request.args.get('user')
     pwd = fileutil.file_dict.get(user)
     return render_template('update.html',user=user,pwd=pwd)
+
 @app.route('/updateaction')
 def updateaciton():
     user = request.args.get('user')
@@ -60,5 +65,12 @@ def updateaciton():
     fileutil.file_dict[user] = new_pwd
     fileutil.write_file()
     return redirect('/list')
+
+@app.route('/list')
+def userlist():
+     if 'username' in session:
+         return render_template('admin.html',userlist=fileutil.file_dict.items())
+     else:
+         return redirect('/')
 if __name__ == '__main__':
     app.run(host='0.0.0.0',port=9092,debug=True)
