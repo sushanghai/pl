@@ -1,4 +1,9 @@
 
+<form action="/adduser">
+     username <input type="text" name="user">
+     password <input type="password" name="pwd">
+     <input type="submit" value="add">
+</form>
 
 
 <table border = '1'>
@@ -16,7 +21,8 @@
     	{{user[1]}}
     </td>
     <td>
-        <a>delete</a>
+        <a href='/del?user={{user[0]}}'>delete</a>
+        <a href='/update?user={{user[0]}}'>update</a>
     </td>
 </tr>
 {% endfor %}

@@ -1,9 +1,5 @@
-user:123456789
-user1:12345678
-user2:123456
-user3:987654321
-user4:123457890
-user5:9876543210
-hello:oyf
-myname:reboot
 admin:pwd
+myname:reboot
+user1:123
+user:None
+hello:oyf
