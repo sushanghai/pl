@@ -8,9 +8,9 @@ def read_file():
 	     if line:
 	         temp = line.split(':')
                  file_dict[temp[0]] = temp[1]
-#	 return file_dict.items()
+	 return file_dict.items()
 
-#print read_file()
+print read_file()
 
 
 #file ==> dict
