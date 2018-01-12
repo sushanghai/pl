@@ -1,0 +1,213 @@
+<!DOCTYPE html> 
+<html> 
+<head> 
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" /> 
+<title>阿伍和依依积分表</title> 
+	<link rel="stylesheet" href="https://cdn.bootcss.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
+	<style>
+    		.div-top20{
+    			margin-top:20px;
+    		}
+	</style>
+</head>
+<body>
+<div class='container'>
+	<a type="button" class='btn btn-danger' href=/logout>退出编辑</a>
+</div>
+<!--报错接受flask的信息-->
+<div class='container'>
+<p style='color:red'>
+{{erro_msg}}
+</p>
+</div>
+
+<!--加分表单和加分项目表单-->
+
+<div class='container'>
+<div class="row">
+        <div class="col-md-5">
+        <!--输入项目和积分的表单-->
+        <script>
+                function submit1(){
+                        var form = document.getElementsByTagName('form')[0];
+                        form.action ='/add_aw';
+                        form.submit();
+                }
+                function submit2(){
+                        var form = document.getElementsByTagName('form')[0];
+                        form.action ='/add_yy';
+                        form.submit();
+                }
+        </script>
+
+        <form class="form-inline">
+        <div class="form-group"> 
+        	<p class="form-control-static">项目名称</p> 
+        </div>
+        <div class="form-group"> 
+	        <input class="form-control" size='10' type='text' list="url_list" name='name' >
+        </div>
+        <div class="form-group"> 
+        	<p class="form-control-static">积分</p> 
+        </div>
+        <div class="form-group"> 
+            <input class="form-control" size='5' type='text' name='integral'>
+        </div>
+        <div class="form-group"> 
+            <input type='button' class="btn btn-info" value="阿伍" onclick="submit1()">
+        </div>
+        <div class="form-group"> 
+			<input type='button' class="btn btn-danger" value="依依" onclick="submit2()">
+		</div>
+        </form>
+
+        <!--获取下拉菜单-->
+        
+        <datalist id="url_list">
+        {% for lv in lablelist %}
+                 <option label={{lv[0]}} value={{lv[1]}} />
+        {% endfor %}
+        </datalist>
+        </div>
+
+
+        <div class="col-md-5">
+
+        	<form class="form-inline" action="/add_project">
+        		<div class="form-group"> 
+        			<p class="form-control-static">姓名</p> 
+        		</div>
+        		<div class="form-group">
+        			 <input class="form-control" size='5' type='text' name='lable' list="url_list2"> 
+        		</div>
+        		<div class="form-group">
+        			<p class="form-control-static">事件</p>  
+        		</div>
+
+        		<div class="form-group"> 
+        			 <input class="form-control" size='20' type='text' name='action'>
+        		</div>
+
+        		<div class="form-group">
+        			 <input class="btn btn-primary" type='submit' name='提交'> 
+        		</div> 
+        	</form>
+        
+        <datalist id="url_list2">
+                <option value="阿伍">
+                <option value="依依">
+                <option value="共有">
+        </datalist>
+        </div>
+
+        <div class="col-md-2">
+        </div>
+</div>
+</div>
+
+
+<!--显示阿伍和依依积分div表单-->
+<div class='container div-top20'>
+<div class='row'>
+<div class='col-md-4'>
+<!--显示阿伍总分表单-->
+<table class = 'table table-bordered table-striped'>
+	{% for user in totallist %}
+	<tr style='color:blue'>
+		<td align='center'>阿伍总分</td>
+		<td align="center" width="50%">{{user[0]}}</td>
+	</tr>
+	{% endfor %}
+</table>
+
+<!--显示阿伍各项积分表单-->
+<table class = 'table table-bordered table-striped'>
+<thead>
+<tr>
+    <td align='center'>创建时间</td>
+    <td align='center'>项目名称</td>
+    <td align='center'>分数</td>
+    <td align='center'>删除项</td>
+</tr>
+</thead>
+<tbody>
+{% for aw in userlist %}
+<tr>
+    <td align='center'>
+    	{{aw[0]}}
+    </td>
+    <td align='center'>
+    	{{aw[1]}}
+    </td>
+    <td align='center'>
+    	{{aw[2]}}
+    </td>
+    <td align='center'>
+        <a href='/del?aw={{aw[0]}}&jf={{aw[2]}}'>删除</a>
+    </td>
+</tr>
+{% endfor %}
+</tbody>
+</table>
+</div>
+
+
+<!--显示依依积分列表-->
+<div class='col-md-4'>
+<table class = 'table table-bordered table-striped'>
+{% for user in totallist %}
+	<tr style='color:red'>
+    		<td align='center'>依依总分</td>
+		<td align="center" width="50%">{{user[1]}}</td>
+	</tr>
+{% endfor %}
+</table>
+<!--显示依依各项积分表单-->
+<table class = 'table table-bordered table-striped'>
+	<thead>
+	<tr>
+    		<td align='center'>创建时间</td>
+    		<td align='center'>项目名称</td>
+    		<td align='center'>分数</td>
+    		<td align='center'>删除项</td>
+	</tr>
+	<thead>
+	<tbody>
+	{% for yy in yylist %}
+	<tr>
+    		<td align='center'>{{yy[0]}}</td>
+    		<td align='center'>{{yy[1]}}</td>
+		<td align='center'>{{yy[2]}}</td>
+    		<td align='center'><a href='/del?yy={{yy[0]}}&jf={{yy[2]}}'>删除</a></td>
+	</tr>
+	{% endfor %}
+	</tbody>
+</table>
+</div>
+
+<!--显示项目列表-->
+<div class='col-md-4'>
+<table class = 'table table-bordered table-striped'>
+	<thead>
+	<tr>
+    		<td align='center'>姓名</td>
+    		<td align='center'>事件</td>
+    		<td align='center'>删除项</td>
+	</tr>
+	</thead>
+	<tbody>
+	{% for lv in lablelist %}
+	<tr>
+    		<td align='center'>{{lv[0]}}</td>
+    		<td align='center'>{{lv[1]}}</td>
+    		<td align='center'><a href='/del?action={{lv[1]}}'>删除</a></td>
+	</tr>
+	{% endfor %}
+	</tbody>
+</table>
+</div>
+
+</div>
+</div>
+</body>
+</html>

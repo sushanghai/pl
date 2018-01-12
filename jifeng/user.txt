@@ -1,0 +1,4 @@
+admin:pwd
+myname:reboot
+zengweilong:hello
+hello:1232
