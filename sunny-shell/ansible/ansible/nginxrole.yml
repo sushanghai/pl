@@ -1,0 +1,4 @@
+- hosts: dbsrvs
+  remote_user: root
+  roles:
+  - nginx

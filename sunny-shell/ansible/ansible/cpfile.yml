@@ -1,0 +1,9 @@
+- hosts: nginx
+  remote_user: root
+  tasks:
+  - name: copy file6
+    copy: src=/root/nginx.conf.c6.j2 dest=/tmp/
+    when: ansible_default_ipv4['address'] == '172.18.50.63'
+  - name: copy file7
+    copy: src=/root/nginx.conf.c7.j2 dest=/tmp/
+    when: ansible_default_ipv4['address'] == '172.18.50.75'

@@ -1,0 +1,33 @@
+- hosts: dbsrvs
+  remote_user: root
+  vars: 
+  - jdk_version: 1.8.0
+  tasks:
+  - name: install {{ item }} package
+    yum: name={{ item.name }}-{{ item.version }} state=latest
+    with_items:
+    - { name: 'nginx',version: '1.10.2' }
+    - { name: 'tree',version: '1.5.3' }
+  - name: copy nginx conf
+    copy: src={{ item.file }} dest={{ item.conf }}
+    with_items:
+    - { file: '/root/nginx.conf.os6',conf: '/etc/nginx.conf' }
+  - name: install {{ item }} package
+    yum: name={{ item }} state=latest
+    with_items:
+    - java-{{ jdk_version }}-openjdk
+    - tomcat
+    - tomcat-webapps
+    - tomcat-docs-webapp
+    - tomcat-admin-webapps
+  - name: add some groups
+    group: name={{ item }} state=present
+    with_items:
+    - ansigrp1
+    - ansigrp2
+  - name: add some users
+    user: name={{ item.name }} group={{ item.group }} state=present
+    with_items:
+    - { name: 'ansiuser1', group: 'ansigrp1' }
+    - { name: 'ansiuser2', group: 'ansigrp2' }
+

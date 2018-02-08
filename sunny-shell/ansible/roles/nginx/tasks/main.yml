@@ -1,0 +1,11 @@
+- name: install nginx package
+  yum: name=nginx state=latest
+- name: copy nginx conf file
+  template: src=web.conf.j2 dest=/etc/nginx/conf.d/web.conf
+  notify: reload nginx
+  tags: cpfile
+- name: create docroot dir
+  file: path={{ ngx_doc_root }} state=directory
+  tags: cpfile
+- name: start nginx service
+  service: name=nginx enabled=true state=started

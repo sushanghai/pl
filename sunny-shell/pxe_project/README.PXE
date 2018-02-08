@@ -1,0 +1,5 @@
+If you run the script install_pxe_env.sh ,you should notice the below:
+  1. Do not forget to modify your ks path in file default
+  2. You should config which dhcp ip domain you want to assign
+  3. You should be careful if you mount the disk to the http server as yum source,do not make mistake      for version
+  4. In the ks file,you should assign the right path to yum source ,such as url=??

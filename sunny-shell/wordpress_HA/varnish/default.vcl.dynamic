@@ -1,0 +1,96 @@
+#
+# This is an example VCL file for Varnish.
+#
+# It does not do anything by default, delegating control to the
+# builtin VCL. The builtin VCL is called when there is no explicit
+# return statement.
+#
+# See the VCL chapters in the Users Guide at https://www.varnish-cache.org/docs/
+# and http://varnish-cache.org/trac/wiki/VCLExamples for more examples.
+
+# Marker to tell the VCL compiler that this VCL has been adapted to the
+# new 4.0 format.
+vcl 4.0;
+
+
+#probe check {
+#   .url = "/index.html";
+#	.window = 5;
+#	.threshold = 4;
+#	.interval = 2s;
+#	.timeout = 1s;
+#}
+# Default backend definition. Set this to point to your content server.
+#backend static {
+ #   .host = "172.18.50.65";
+  #  .port = "80";
+#	.probe = check;
+#}
+
+backend dynamic {
+    .host = "172.18.50.75";
+    .port = "80";
+#	.probe = check;
+}
+
+
+sub vcl_recv {
+    # Happens before we check if we have this in cache already.
+    #
+    # Typically you clean up the request here, removing cookies you don't need,
+    # rewriting the request, etc.
+	#
+	#
+	
+#	set req.backend_hint = srvs.backend(req.http.cookie);
+
+#	if (req.url ~ "(?i)(.jpg|.gif|.png|.css|.js|.html|.txt|.ico)") {
+#		set req.backend_hint = static; 
+#			} else {
+#				set req.backend_hint = dynamic;
+#				}    
+
+	if (req.restarts == 0){
+		if (req.http.X-Forwarded-For){
+			set req.http.X-Forwarded-For = req.http.X-Forwarded-For + "," + client.ip;
+			} else {
+				set req.http.X.Forwarded-For = client.ip;
+				}
+	}
+
+
+}
+
+sub vcl_backend_response {
+    # Happens after we have read the response headers from the backend.
+    #
+    # Here you clean the response headers, removing silly Set-Cookie headers
+    # and other mistakes your backend does.
+   # 当后端服务器回复给varnish的响应如果不包含公共缓存信息，而且请求为jpg等静态资源，则卸载cookie信息并缓存资源1小时#
+    if (beresp.http.cache-control !~ "s-maxage") {  
+        if (bereq.url ~ "(?i)\.(jpg|jpeg|png|gif|css|js|xml)$") {
+                unset beresp.http.Set-Cookie;
+                set beresp.ttl = 3600s;
+        }
+    }
+   #   当varnish请求后端服务器的url包括php，则卸载cookie信息并缓存资源1小时#
+    if (bereq.url ~ "(?i).*php.*") {
+        unset beresp.http.Set-Cookie;
+        set beresp.ttl = 3600s;
+    }
+	
+
+
+}
+
+sub vcl_deliver {
+    # Happens when we have all the pieces we need, and are about to send the
+    # response to the client.
+    #
+    # You can do accounting or modifying the final object here.
+	if (obj.hits>0) {
+		set resp.http.X-Cache = "Hit via " + server.ip;
+		} else {
+				set resp.http.X-Cache = "Miss from " + server.ip;
+	}
+}

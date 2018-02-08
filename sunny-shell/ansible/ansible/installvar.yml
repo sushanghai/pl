@@ -1,0 +1,9 @@
+- hosts: websrvs
+  remote_user: root
+  vars:
+  - pkgname: redis
+  tasks:
+  - name: install package
+    yum: name={{ pkgname }} state=latest
+  - name: install redis conf
+    template: src=/root/redis.conf.j2 dest=/etc/redis.conf owner=redis group=root mode=644

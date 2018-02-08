@@ -1,0 +1,20 @@
+- hosts: nginx
+  remote_user: root
+  tasks:
+  - name: install nginx package
+    yum: name=nginx state=latest
+    tags: instpkg
+  - name: install conf file6
+    template: src=/root/nginx.conf.c6.j2 dest=/etc/nginx/nginx.conf
+    when: ansible_distribution_major_version == "6" 
+    notify: restart nginx
+  - name: install conf file7
+    template: src=/root/nginx.conf.c7.j2 dest=/etc/nginx/nginx.conf
+    when: ansible_distribution_major_version == "7"
+    notify: restart nginx
+  - name: start nginx service
+    service: name=nginx enabled=true state=started
+  handlers:
+  - name: restart nginx
+    service: name=nginx state=restarted
+

@@ -1,0 +1,3 @@
+ngx_port: 8890
+ngx_server_name: www.sunny.com
+ngx_doc_root: /webdata

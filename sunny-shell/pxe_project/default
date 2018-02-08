@@ -1,0 +1,44 @@
+
+default menu.c32
+#prompt 1
+timeout 80
+
+display boot.msg
+
+menu background splash.jpg
+menu title Welcome to Sunny diy install Linux!
+menu color border 0 #ffffffff #00000000
+menu color sel 7 #ffffffff #ff000000
+menu color title 0 #ffffffff #00000000
+menu color tabmsg 0 #ffffffff #00000000
+menu color unsel 0 #ffffffff #00000000
+menu color hotsel 0 #ff000000 #ffffffff
+menu color hotkey 7 #ffffffff #ff000000
+menu color scrollbar 0 #ffffffff #00000000
+
+label desktop73
+  menu label Install diy ^desktop centos 7
+  menu default
+  kernel 7/vmlinuz
+  append initrd=7/initrd.img ks=http://192.168.32.72/ksdir/ks73desk.cfg
+label mini73
+  menu label Install diy ^mini centos 7
+  menu default
+  kernel 7/vmlinuz
+  append initrd=7/initrd.img ks=http://192.168.32.72/ksdir/ks73min.cfg
+label desktop6.5
+  menu label Installed d^esktop centos 6.5 i386
+  kernel 6i386/vmlinuz
+  append initrd=6i386/initrd.img ks=http://192.168.32.72/ksdir/ks65desk.cfg
+label mini6.5
+  menu label Install m^ini centos 6.5 i386 
+  kernel 6i386/vmlinuz
+  append initrd=6i386/initrd.img ks=http://192.168.32.72/ksdir/ks65min.cfg
+label desktop6.9
+  menu label Installed de^sktop centos 6.9 
+  kernel 6x86_64/vmlinuz
+  append initrd=6x86_64/initrd.img ks=http://192.168.32.72/ksdir/ks69desk.cfg
+label mini6.9
+  menu label Install mi^ni centos 6.9 
+  kernel 6x86_64/vmlinuz
+  append initrd=6x86_64/initrd.img ks=http://192.168.32.72/ksdir/ks69min.cfg

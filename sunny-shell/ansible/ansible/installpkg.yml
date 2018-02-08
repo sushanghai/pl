@@ -1,0 +1,24 @@
+- hosts: websrvs
+  remote_user: root
+  tasks:
+  - name: install nginx package
+    yum: name=nginx state=latest
+    tags: instpkg
+  - name: start nginx service
+    service: name=nginx enabled=true state=started
+
+- hosts: dbsrvs
+  remote_user: root
+  tasks:
+  - name: install redis package
+    yum: name=redis state=latest
+    tags: instpkg
+  - name: install conf file
+    copy: src=/root/redis.conf dest=/etc/redis.conf owner=redis group=root mode=644
+    tags: instconf
+    notify: restart redis service
+  - name: start redis service
+    service: name=redis state=started
+  handlers: 
+  - name: restart redis service
+    service: name=redis state=restarted

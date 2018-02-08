@@ -1,0 +1,7 @@
+server {
+	listen {{ ngx_port }};
+	server_name {{ ngx_server_name }};
+	location / {
+		root {{ ngx_doc_root }};
+	}
+}
